@@ -76,20 +76,19 @@
                 <StackPanel Grid.Column="1" Margin="5" Orientation="Vertical">
 
                     <!-- 节点编辑 -->
-                    <!-- 有点问题 -->
-                    <!-- <GroupBox Header="继承关系"> -->
-                    <!--     <Grid HorizontalAlignment="Left" Margin="5"> -->
-                    <!--         <Grid.ColumnDefinitions> -->
-                    <!--             <ColumnDefinition /> -->
-                    <!--             <ColumnDefinition /> -->
-                    <!--         </Grid.ColumnDefinitions> -->
-                    <!-- -->
-                    <!--         <Button Grid.Column="0" Margin="5" Content="添加孩子" Command="{Binding AddEmptyChild}" -->
-                    <!--                 CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" /> -->
-                    <!--         <Button Grid.Column="1" Margin="5" Content="移除当前节点" Command="{Binding RemoveCurrentNode}" -->
-                    <!--                 CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" /> -->
-                    <!--     </Grid> -->
-                    <!-- </GroupBox> -->
+                    <GroupBox Header="继承关系">
+                        <Grid HorizontalAlignment="Left" Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                    
+                            <Button Grid.Column="0" Margin="5" Content="添加孩子" Command="{Binding AddEmptyChild}"
+                                    CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" />
+                            <Button Grid.Column="1" Margin="5" Content="移除当前节点" Command="{Binding RemoveCurrentNode}"
+                                    CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" />
+                        </Grid>
+                    </GroupBox>
 
                     <!-- 展示信息编辑 -->
                     <GroupBox Header="编辑节点信息" Margin="0 5 0 0">

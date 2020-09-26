@@ -4,8 +4,7 @@ using System.Windows;
 using FamilyGraph.Controls;
 using FamilyGraph.Internal;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using MaterialDesignThemes.Wpf;
+using GalaSoft.MvvmLight.CommandWpf;
 
 namespace FamilyGraph.ViewModel
 {
