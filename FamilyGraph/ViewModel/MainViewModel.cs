@@ -71,7 +71,13 @@ namespace FamilyGraph.ViewModel
                 }
             }, node => Owner?.TreeViewFamily?.SelectedItem != null);
             RemoveCurrentNode = new RelayCommand<FamilyTreeNode>(
-                node => _actionHistory.DoAction(new RemoveNodeAction(node))
+                node =>
+                {
+                    if (node?.ParentNode != null)
+                    {
+                        _actionHistory.DoAction(new RemoveNodeAction(node));
+                    }
+                }
                 , node => (Owner?.TreeViewFamily?.SelectedItem as FamilyTreeNode)?.ParentNode != null);
 
             Undo = new RelayCommand(() => _actionHistory.Undo(1), () => _actionHistory.UndoCount > 0);

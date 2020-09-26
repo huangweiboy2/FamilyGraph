@@ -14,32 +14,61 @@
         <viewModel:MainViewModel />
     </Window.DataContext>
 
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Control" Key="N" Command="{Binding NewFile}" />
+        <KeyBinding Modifiers="Control" Key="O" Command="{Binding OpenFile}" />
+        <KeyBinding Modifiers="Control" Key="S" Command="{Binding SaveFile}" />
+        <KeyBinding Modifiers="Control+Shift" Key="S" Command="{Binding SaveFileAs}" />
+        <KeyBinding Modifiers="Control" Key="P" Command="{Binding Print}" />
+
+        <KeyBinding Modifiers="Control" Key="Z" Command="{Binding Undo}" />
+        <KeyBinding Modifiers="Control" Key="Y" Command="{Binding Redo}" />
+
+        <KeyBinding Modifiers="Control" Key="R" Command="{Binding ResetTree}" />
+        <KeyBinding Modifiers="Control+Shift" Key="A" Command="{Binding AddEmptyChild}"
+                    CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" />
+        <KeyBinding Modifiers="Control" Key="D" Command="{Binding RemoveCurrentNode}"
+                    CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" />
+        <KeyBinding Modifiers="Control+Shift" Key="P" Command="{Binding PreviewGraph}" />
+    </Window.InputBindings>
+
     <Border>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="文件">
-                    <MenuItem Header="新建" Command="{Binding NewFile}" />
-                    <MenuItem Header="打开" Command="{Binding OpenFile}" />
-                    <MenuItem Header="保存" Command="{Binding SaveFile}" />
-                    <MenuItem Header="另存为" Command="{Binding SaveFileAs}" />
+                    <MenuItem Header="新建" Command="{Binding NewFile}"
+                              InputGestureText="Ctrl+N" />
+                    <MenuItem Header="打开" Command="{Binding OpenFile}"
+                              InputGestureText="Ctrl+O" />
+                    <MenuItem Header="保存" Command="{Binding SaveFile}"
+                              InputGestureText="Ctrl+S" />
+                    <MenuItem Header="另存为" Command="{Binding SaveFileAs}"
+                              InputGestureText="Ctrl+Shift+N" />
                     <Separator />
-                    <MenuItem Header="打印" Command="{Binding Print}" />
+                    <MenuItem Header="打印" Command="{Binding Print}"
+                              InputGestureText="Ctrl+P" />
                     <Separator />
                     <MenuItem Header="退出" Command="{Binding Exit}" />
                 </MenuItem>
                 <MenuItem Header="编辑">
-                    <MenuItem Header="撤销" Command="{Binding Undo}" />
-                    <MenuItem Header="重做" Command="{Binding Redo}" />
+                    <MenuItem Header="撤销" Command="{Binding Undo}"
+                              InputGestureText="Ctrl+Z" />
+                    <MenuItem Header="重做" Command="{Binding Redo}"
+                              InputGestureText="Ctrl+Y" />
                 </MenuItem>
                 <MenuItem Header="族谱">
-                    <MenuItem Header="重置图谱" Command="{Binding ResetTree}" />
+                    <MenuItem Header="重置图谱" Command="{Binding ResetTree}"
+                              InputGestureText="Ctrl+R" />
                     <Separator />
                     <MenuItem Header="添加孩子" Command="{Binding AddEmptyChild}"
-                              CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" />
+                              CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}"
+                              InputGestureText="Ctrl+Shift+A" />
                     <MenuItem Header="删除当前节点" Command="{Binding RemoveCurrentNode}"
-                              CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" />
+                              CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}"
+                              InputGestureText="Ctrl+D" />
                     <Separator />
-                    <MenuItem Header="预览" Command="{Binding PreviewGraph}" />
+                    <MenuItem Header="预览" Command="{Binding PreviewGraph}"
+                              InputGestureText="Ctrl+Shift+N" />
                 </MenuItem>
                 <MenuItem Header="帮助">
                     <MenuItem Header="关于" Command="{Binding AboutUs}" />
@@ -86,7 +115,7 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                    
+
                             <Button Grid.Column="0" Margin="5" Content="添加孩子" Command="{Binding AddEmptyChild}"
                                     CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" />
                             <Button Grid.Column="1" Margin="5" Content="移除当前节点" Command="{Binding RemoveCurrentNode}"
