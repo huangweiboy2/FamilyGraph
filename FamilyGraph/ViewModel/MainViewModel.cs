@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using FamilyGraph.Controls;
 using FamilyGraph.Internal;
 using GalaSoft.MvvmLight;
@@ -37,6 +38,15 @@ namespace FamilyGraph.ViewModel
 
         public RelayCommand<FamilyTreeNode> AddEmptyChild { get; set; }
         public RelayCommand<FamilyTreeNode> RemoveCurrentNode { get; set; }
+        public RelayCommand NewFile { get; set; }
+        public RelayCommand OpenFile { get; set; }
+        public RelayCommand SaveFile { get; set; }
+        public RelayCommand SaveFileAs { get; set; }
+        public RelayCommand Print { get; set; }
+        public RelayCommand Exit { get; set; }
+        public RelayCommand ResetTree { get; set; }
+        public RelayCommand PreviewGraph { get; set; }
+        public RelayCommand AboutUs { get; set; }
 
         public MainViewModel()
         {
@@ -54,8 +64,22 @@ namespace FamilyGraph.ViewModel
                     if (r != null && r.Value)
                         node.Children.Add(editNodeWindow.Node);
                 }
+            }, node => Owner?.TreeViewFamily?.SelectedItem != null);
+            RemoveCurrentNode = new RelayCommand<FamilyTreeNode>(node => node.ParentNode?.Children.Remove(node)
+                , node => (Owner?.TreeViewFamily?.SelectedItem as FamilyTreeNode)?.ParentNode != null);
+
+            ResetTree = new RelayCommand(() =>
+            {
+                if (MessageBoxResult.Yes == MessageBox.Show(Owner,"确定要重置图谱吗？这样之前的信息会丢失哦~", "提示", MessageBoxButton.YesNo))
+                {
+                    FamilyTreeNodes.Clear();
+                    FamilyTreeNodes.Add(new FamilyTreeNode
+                    {
+                        Name = "祖宗",
+                        Type = Gender.Male
+                    });
+                }
             });
-            RemoveCurrentNode = new RelayCommand<FamilyTreeNode>(node => node.ParentNode?.Children.Remove(node));
         }
     }
 }

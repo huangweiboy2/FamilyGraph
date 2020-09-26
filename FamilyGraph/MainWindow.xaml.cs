@@ -25,8 +25,13 @@ namespace FamilyGraph
 
         private void InitViewModel()
         {
-            _viewModel = new MainViewModel();
+            _viewModel = new MainViewModel {Owner = this};
+            InitCommand();
             DataContext = _viewModel;
+        }
+
+        private void InitCommand()
+        {
         }
 
         private FamilyTreeNode GenerateDefaultTree()

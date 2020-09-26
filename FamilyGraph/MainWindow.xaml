@@ -14,77 +14,98 @@
         <viewModel:MainViewModel />
     </Window.DataContext>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*" />
-            <ColumnDefinition Width="5*" />
-        </Grid.ColumnDefinitions>
+    <Border>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="文件">
+                    <MenuItem Header="新建" Command="{Binding NewFile}" />
+                    <MenuItem Header="打开" Command="{Binding OpenFile}" />
+                    <MenuItem Header="保存" Command="{Binding SaveFile}" />
+                    <MenuItem Header="另存为" Command="{Binding SaveFileAs}" />
+                    <Separator />
+                    <MenuItem Header="打印" Command="{Binding Print}" />
+                    <Separator />
+                    <MenuItem Header="退出" Command="{Binding Exit}" />
+                </MenuItem>
+                <MenuItem Header="族谱">
+                    <MenuItem Header="重置图谱" Command="{Binding ResetTree}" />
+                    <Separator />
+                    <MenuItem Header="添加孩子" Command="{Binding AddEmptyChild}"
+                              CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" />
+                    <MenuItem Header="删除当前节点" Command="{Binding RemoveCurrentNode}"
+                              CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" />
+                    <Separator />
+                    <MenuItem Header="预览" Command="{Binding PreviewGraph}" />
+                </MenuItem>
+                <MenuItem Header="帮助">
+                    <MenuItem Header="关于" Command="{Binding AboutUs}" />
+                </MenuItem>
+            </Menu>
 
-        <!-- 展示家族关系 -->
-        <TreeView
-            Margin="5"
-            x:Name="TreeViewFamily"
-            ItemsSource="{Binding FamilyTreeNodes}">
-            <TreeView.ItemContainerStyle>
-                <Style TargetType="TreeViewItem">
-                    <Setter Property="IsExpanded" Value="True" />
-                </Style>
-            </TreeView.ItemContainerStyle>
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type viewModel:FamilyTreeNode}"
-                                          ItemsSource="{Binding Path=Children}">
-                    <StackPanel Margin="10 5" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Image Width="20" Height="20" Stretch="UniformToFill"
-                               Style="{StaticResource ImageGenderSelector}" />
-                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
-                        <Image Width="20" Height="20" Stretch="UniformToFill"
-                               Style="{StaticResource ImageSpouseGenderSelector}" />
-                        <TextBlock Text="{Binding SpouseName}" VerticalAlignment="Center" />
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*" />
+                    <ColumnDefinition Width="5*" />
+                </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="1" Margin="5" Orientation="Vertical">
+                <!-- 展示家族关系 -->
+                <TreeView
+                    Margin="5"
+                    x:Name="TreeViewFamily"
+                    ItemsSource="{Binding FamilyTreeNodes}">
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="TreeViewItem">
+                            <Setter Property="IsExpanded" Value="True" />
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type viewModel:FamilyTreeNode}"
+                                                  ItemsSource="{Binding Path=Children}">
+                            <StackPanel Margin="10 5" Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image Width="20" Height="20" Stretch="UniformToFill"
+                                       Style="{StaticResource ImageGenderSelector}" />
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                                <Image Width="20" Height="20" Stretch="UniformToFill"
+                                       Style="{StaticResource ImageSpouseGenderSelector}" />
+                                <TextBlock Text="{Binding SpouseName}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
 
-            <!-- 节点编辑 -->
-            <GroupBox Header="继承关系">
-                <Grid HorizontalAlignment="Left" Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="1" Margin="5" Orientation="Vertical">
 
-                    <Button Grid.Column="0" Margin="5" Content="添加孩子" Command="{Binding AddEmptyChild}"
-                            CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}">
-                        <Button.Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=TreeViewFamily,Path=SelectedItem}"
-                                             Value="{x:Null}">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                    <Button Grid.Column="1" Margin="5" Content="移除当前节点" Command="{Binding RemoveCurrentNode}"
-                            CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" />
-                </Grid>
-            </GroupBox>
+                    <!-- 节点编辑 -->
+                    <!-- 有点问题 -->
+                    <!-- <GroupBox Header="继承关系"> -->
+                    <!--     <Grid HorizontalAlignment="Left" Margin="5"> -->
+                    <!--         <Grid.ColumnDefinitions> -->
+                    <!--             <ColumnDefinition /> -->
+                    <!--             <ColumnDefinition /> -->
+                    <!--         </Grid.ColumnDefinitions> -->
+                    <!-- -->
+                    <!--         <Button Grid.Column="0" Margin="5" Content="添加孩子" Command="{Binding AddEmptyChild}" -->
+                    <!--                 CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" /> -->
+                    <!--         <Button Grid.Column="1" Margin="5" Content="移除当前节点" Command="{Binding RemoveCurrentNode}" -->
+                    <!--                 CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" /> -->
+                    <!--     </Grid> -->
+                    <!-- </GroupBox> -->
 
-            <!-- 展示信息编辑 -->
-            <GroupBox Header="编辑节点信息" Margin="0 5 0 0">
-                <controls:EditNodeControl>
-                    <controls:EditNodeControl.DataContext>
-                        <Binding ElementName="TreeViewFamily" Path="SelectedItem" />
-                    </controls:EditNodeControl.DataContext>
-                </controls:EditNodeControl>
-            </GroupBox>
+                    <!-- 展示信息编辑 -->
+                    <GroupBox Header="编辑节点信息" Margin="0 5 0 0">
+                        <controls:EditNodeControl>
+                            <controls:EditNodeControl.DataContext>
+                                <Binding ElementName="TreeViewFamily" Path="SelectedItem" />
+                            </controls:EditNodeControl.DataContext>
+                        </controls:EditNodeControl>
+                    </GroupBox>
 
 
-        </StackPanel>
+                </StackPanel>
 
 
-    </Grid>
+            </Grid>
+        </DockPanel>
+
+    </Border>
 </Window>
