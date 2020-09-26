@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using FamilyGraph.Controls;
 using FamilyGraph.Internal;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MaterialDesignThemes.Wpf;
 
 namespace FamilyGraph.ViewModel
 {
@@ -20,6 +22,7 @@ namespace FamilyGraph.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
+        public MainWindow Owner;
         private ObservableCollection<FamilyTreeNode> _familyTreeNodes = new ObservableCollection<FamilyTreeNode>();
 
         public ObservableCollection<FamilyTreeNode> FamilyTreeNodes
@@ -37,11 +40,21 @@ namespace FamilyGraph.ViewModel
 
         public MainViewModel()
         {
-            AddEmptyChild = new RelayCommand<FamilyTreeNode>(node => node.Children.Add(new FamilyTreeNode
+            AddEmptyChild = new RelayCommand<FamilyTreeNode>(node =>
             {
-                Name = "你说取个啥名好呢？",
-                Type = Gender.Male
-            }));
+                if (node != null)
+                {
+                    var newNode = new FamilyTreeNode
+                    {
+                        Name = "你说取个啥名好呢？",
+                        Type = Gender.Male
+                    };
+                    var editNodeWindow = new EditNodeWindow(newNode);
+                    var r = editNodeWindow.ShowDialog();
+                    if (r != null && r.Value)
+                        node.Children.Add(editNodeWindow.Node);
+                }
+            });
             RemoveCurrentNode = new RelayCommand<FamilyTreeNode>(node => node.ParentNode?.Children.Remove(node));
         }
     }

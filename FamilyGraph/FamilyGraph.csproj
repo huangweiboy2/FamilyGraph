@@ -79,13 +79,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converter\GenderConverter.cs" />
+    <Compile Include="EditNodeWindow.xaml.cs">
+      <DependentUpon>EditNodeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Internal\Gender.cs" />
     <Compile Include="Controls\EditNodeControl.xaml.cs">
       <DependentUpon>EditNodeControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\EditViewModel.cs" />
     <Compile Include="ViewModel\FamilyTreeNode.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Page Include="EditNodeWindow.xaml" />
     <Page Include="Icon.xaml" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
