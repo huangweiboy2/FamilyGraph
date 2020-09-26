@@ -27,6 +27,10 @@
                     <Separator />
                     <MenuItem Header="退出" Command="{Binding Exit}" />
                 </MenuItem>
+                <MenuItem Header="编辑">
+                    <MenuItem Header="撤销" Command="{Binding Undo}" />
+                    <MenuItem Header="重做" Command="{Binding Redo}" />
+                </MenuItem>
                 <MenuItem Header="族谱">
                     <MenuItem Header="重置图谱" Command="{Binding ResetTree}" />
                     <Separator />

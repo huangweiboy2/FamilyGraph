@@ -92,6 +92,11 @@
     <Compile Include="Controls\EditNodeControl.xaml.cs">
       <DependentUpon>EditNodeControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Undoable\ActionHistory.cs" />
+    <Compile Include="Undoable\AddChildAction.cs" />
+    <Compile Include="Undoable\RemoveNodeAction.cs" />
+    <Compile Include="Undoable\IUndoAction.cs" />
+    <Compile Include="Undoable\ResetTreeAction.cs" />
     <Compile Include="ViewModel\EditViewModel.cs" />
     <Compile Include="ViewModel\FamilyTreeNode.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
