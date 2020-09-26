@@ -1,19 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using FamilyGraph.Internal;
 using FamilyGraph.ViewModel;
 
@@ -69,9 +54,9 @@ namespace FamilyGraph
                 SpouseName = "老婆",
                 Type = Gender.Male
             };
-            me.Children.Add(son1);
-            me.Children.Add(son2);
-            me.Children.Add(daughter);
+            me.AddChild(son1);
+            me.AddChild(son2);
+            me.AddChild(daughter);
 
             var brother = new FamilyTreeNode
             {
@@ -86,8 +71,8 @@ namespace FamilyGraph
                 SpouseName = "妈妈",
                 Type = Gender.Male
             };
-            father.Children.Add(me);
-            father.Children.Add(brother);
+            father.AddChild(me);
+            father.AddChild(brother);
 
             var grandpa = new FamilyTreeNode
             {
@@ -95,7 +80,7 @@ namespace FamilyGraph
                 SpouseName = "奶奶",
                 Type = Gender.Male
             };
-            grandpa.Children.Add(father);
+            grandpa.AddChild(father);
 
             return grandpa;
         }

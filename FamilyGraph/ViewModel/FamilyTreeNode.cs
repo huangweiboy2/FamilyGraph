@@ -6,6 +6,7 @@ namespace FamilyGraph.ViewModel
 {
     public class FamilyTreeNode : ViewModelBase
     {
+        public FamilyTreeNode ParentNode;
         private string _name = string.Empty;
 
         public string Name
@@ -51,6 +52,12 @@ namespace FamilyGraph.ViewModel
                 _children = value;
                 RaisePropertyChanged();
             }
+        }
+
+        public void AddChild(FamilyTreeNode node)
+        {
+            node.ParentNode = this;
+            Children.Add(node);
         }
     }
 }
