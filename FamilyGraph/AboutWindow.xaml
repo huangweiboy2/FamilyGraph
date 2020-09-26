@@ -24,7 +24,7 @@
                     <Hyperlink NavigateUri="http://www.mvvmlight.net/" Click="Hyperlink_OnClick">MvvmLight</Hyperlink>
                     <Hyperlink NavigateUri="https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit" Click="Hyperlink_OnClick">MaterialDesign</Hyperlink>
                 </TextBlock>
-                <TextBlock TextWrapping="Wrap" Width="280" Height="50">
+                <TextBlock TextWrapping="Wrap" Width="270" Height="50">
                     软件旨在帮您更好地构造家族图谱，并提供友好的编辑功能，精美的渲染。
                 </TextBlock>
             </StackPanel>
