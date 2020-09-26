@@ -4,7 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FamilyGraph"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:viewModel="clr-namespace:FamilyGraph.ViewModel"
+        xmlns:internal="clr-namespace:FamilyGraph.Internal"
+        xmlns:converter="clr-namespace:FamilyGraph.Converter"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="450" Width="800">
@@ -14,7 +17,7 @@
     </Window.DataContext>
 
     <Window.Resources>
-        <ResourceDictionary Source="Icon.xaml" />
+        <converter:GenderConverter x:Key="GenderConverter"/>
     </Window.Resources>
 
     <Grid>
@@ -32,7 +35,7 @@
                 </Style>
             </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type local:FamilyTreeNode}"
+                <HierarchicalDataTemplate DataType="{x:Type viewModel:FamilyTreeNode}"
                                           ItemsSource="{Binding Path=Children}">
                     <StackPanel Margin="10 5" Orientation="Horizontal" VerticalAlignment="Center">
                         <Image Width="20" Height="20" Stretch="UniformToFill"
@@ -46,10 +49,46 @@
             </TreeView.ItemTemplate>
         </TreeView>
 
-        <StackPanel Grid.Column="1">
-            <Image Source="/Assets/Female.png" />
-            <TextBlock Text="54" />
-        </StackPanel>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="32" />
+                <RowDefinition Height="32" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="180" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.Resources>
+                <ObjectDataProvider x:Key="GenderNames" ObjectType="{x:Type sys:Enum}" MethodName="GetNames">
+                    <ObjectDataProvider.MethodParameters>
+                        <x:Type TypeName="internal:Gender" />
+                    </ObjectDataProvider.MethodParameters>
+                </ObjectDataProvider>
+            </Grid.Resources>
+
+            <Grid.DataContext>
+                <Binding ElementName="TreeViewFamily" Path="SelectedItem" />
+            </Grid.DataContext>
+
+            <!-- 姓名 -->
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="姓名:" VerticalAlignment="Center" HorizontalAlignment="Right"
+                       Margin="0 0 6 0" />
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="0 4" Text="{Binding Name}" />
+
+            <!-- 配偶 -->
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="配偶:" VerticalAlignment="Center" HorizontalAlignment="Right"
+                       Margin="0 0 6 0" />
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="0 4" Text="{Binding SpouseName}" />
+
+            <!-- 性别 -->
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="性别:" VerticalAlignment="Center" HorizontalAlignment="Right"
+                       Margin="0 0 6 0" />
+            <ComboBox Grid.Row="2" Grid.Column="1" Margin="0 4"
+                      ItemsSource="{Binding Source={StaticResource GenderNames}}"
+                      SelectedValue="{Binding Path=Type, Converter={StaticResource GenderConverter}, Mode=TwoWay}" />
+        </Grid>
 
 
     </Grid>

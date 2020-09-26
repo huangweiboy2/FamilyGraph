@@ -24,6 +24,9 @@
                     <DataTrigger Binding="{Binding Type}" Value="Female">
                         <Setter Property="Source" Value="Assets/Male.png" />
                     </DataTrigger>
+                    <DataTrigger Binding="{Binding SpouseName}" Value="">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </DataTrigger>
                 </Style.Triggers>
             </Style>
         </ResourceDictionary>
