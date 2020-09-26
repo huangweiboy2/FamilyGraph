@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using FamilyGraph.Controls;
 using FamilyGraph.Internal;
 using FamilyGraph.Undoable;
 using GalaSoft.MvvmLight;
@@ -31,6 +29,8 @@ namespace FamilyGraph.ViewModel
         private ActionHistory _actionHistory = new ActionHistory();
         private bool _isSaved = false;
 
+        #region Properties
+
         private string _filePath = String.Empty;
 
         public string FilePath
@@ -53,19 +53,51 @@ namespace FamilyGraph.ViewModel
             }
         }
 
-        public RelayCommand<FamilyTreeNode> AddEmptyChild { get; set; }
-        public RelayCommand<FamilyTreeNode> RemoveCurrentNode { get; set; }
-        public RelayCommand NewFile { get; set; }
-        public RelayCommand OpenFile { get; set; }
-        public RelayCommand SaveFile { get; set; }
-        public RelayCommand SaveFileAs { get; set; }
-        public RelayCommand Print { get; set; }
-        public RelayCommand Exit { get; set; }
-        public RelayCommand Undo { get; set; }
-        public RelayCommand Redo { get; set; }
-        public RelayCommand ResetTree { get; set; }
-        public RelayCommand PreviewGraph { get; set; }
-        public RelayCommand AboutUs { get; set; }
+        #endregion
+
+        #region Commands
+
+        public RelayCommand<FamilyTreeNode> AddEmptyChildCommand { get; set; }
+        public RelayCommand<FamilyTreeNode> RemoveCurrentNodeCommand { get; set; }
+        public RelayCommand NewFileCommand { get; set; }
+        public RelayCommand OpenFileCommand { get; set; }
+        public RelayCommand SaveFileCommand { get; set; }
+        public RelayCommand SaveFileAsCommand { get; set; }
+        public RelayCommand PrintCommand { get; set; }
+        public RelayCommand ExitCommand { get; set; }
+        public RelayCommand UndoCommand { get; set; }
+        public RelayCommand RedoCommand { get; set; }
+        public RelayCommand ResetTreeCommand { get; set; }
+        public RelayCommand PreviewGraphCommand { get; set; }
+        public RelayCommand AboutUsCommand { get; set; }
+
+        #endregion
+
+        public MainViewModel()
+        {
+            // File Commands
+            NewFileCommand = new RelayCommand(NewFile);
+            OpenFileCommand = new RelayCommand(OpenFile);
+            SaveFileCommand = new RelayCommand(SaveFile);
+            SaveFileAsCommand = new RelayCommand(SaveFileAs);
+
+            // Edit Commands
+            UndoCommand = new RelayCommand(execute: Undo, () => _actionHistory.UndoCount > 0);
+            RedoCommand = new RelayCommand(Redo, () => _actionHistory.RedoCount > 0);
+
+            // Graph Command
+            ResetTreeCommand = new RelayCommand(ResetTree);
+            AddEmptyChildCommand =
+                new RelayCommand<FamilyTreeNode>(AddChild, node => Owner?.TreeViewFamily?.SelectedItem != null);
+            RemoveCurrentNodeCommand = new RelayCommand<FamilyTreeNode>(
+                RemoveCurrentNode
+                , node => (Owner?.TreeViewFamily?.SelectedItem as FamilyTreeNode)?.ParentNode != null);
+
+            // Help Commands
+            AboutUsCommand = new RelayCommand(AboutUs);
+        }
+
+        #region File Operation
 
         private bool AskForSave()
         {
@@ -76,7 +108,7 @@ namespace FamilyGraph.ViewModel
                 switch (messageBoxResult)
                 {
                     case MessageBoxResult.Yes:
-                        SaveFile?.Execute(null);
+                        SaveFileCommand?.Execute(null);
                         if (!_isSaved)
                             return false;
                         break;
@@ -90,132 +122,153 @@ namespace FamilyGraph.ViewModel
             return true;
         }
 
-        public MainViewModel()
+        private string SelectSavePath()
         {
-            NewFile = new RelayCommand(() =>
+            var saveFileDialog = new SaveFileDialog
             {
-                if (!AskForSave())
-                    return;
-                _actionHistory.Clear();
-                FilePath = string.Empty;
-                FamilyTreeNodes = new ObservableCollection<FamilyTreeNode>
-                {
-                    new FamilyTreeNode
-                    {
-                        Name = "祖宗",
-                        Type = Gender.Male
-                    }
-                };
-            });
-            OpenFile = new RelayCommand(() =>
+                Filter = "家族图谱文件(*.fg)|*.fg"
+            };
+            var r = saveFileDialog.ShowDialog();
+            if (r != null && r.Value)
             {
-                if (AskForSave())
-                {
-                    var openFileDialog = new OpenFileDialog
-                    {
-                        Multiselect = false,
-                        Filter = "家族图谱文件(*.fg)|*.fg"
-                    };
-                    var r = openFileDialog.ShowDialog();
-                    if (r != null && r.Value)
-                    {
-                        FilePath = openFileDialog.FileName;
-                        MessageBox.Show(openFileDialog.FileName);
-                    }
-                }
-            });
-            SaveFile = new RelayCommand(() =>
-            {
-                if (FilePath == string.Empty)
-                {
-                    var saveFileDialog = new SaveFileDialog
-                    {
-                        Filter = "家族图谱文件(*.fg)|*.fg"
-                    };
-                    var r = saveFileDialog.ShowDialog();
-                    if (r != null && r.Value)
-                    {
-                        FilePath = saveFileDialog.FileName;
-                        _isSaved = true;
-                    }
-                }
+                return saveFileDialog.FileName;
+            }
 
-                if (FilePath != string.Empty)
-                {
-                    MessageBox.Show(FilePath);
-                }
-            });
-            SaveFileAs = new RelayCommand(() =>
+            return string.Empty;
+        }
+
+
+        private void NewFile()
+        {
+            if (!AskForSave())
+                return;
+            _actionHistory.Clear();
+            FilePath = string.Empty;
+            FamilyTreeNodes = new ObservableCollection<FamilyTreeNode>
             {
-                var saveFileDialog = new SaveFileDialog
+                new FamilyTreeNode
                 {
+                    Name = "祖宗",
+                    Type = Gender.Male
+                }
+            };
+        }
+
+        private void OpenFile()
+        {
+            if (AskForSave())
+            {
+                var openFileDialog = new OpenFileDialog
+                {
+                    Multiselect = false,
                     Filter = "家族图谱文件(*.fg)|*.fg"
                 };
-                var r = saveFileDialog.ShowDialog();
+                var r = openFileDialog.ShowDialog();
                 if (r != null && r.Value)
                 {
-                    FilePath = saveFileDialog.FileName;
-                    MessageBox.Show(FilePath);
+                    FilePath = openFileDialog.FileName;
+                    MessageBox.Show(openFileDialog.FileName);
                 }
-            });
+            }
+        }
 
-            AddEmptyChild = new RelayCommand<FamilyTreeNode>(node =>
+        private void SaveFile()
+        {
+            if (FilePath == string.Empty)
             {
-                if (node != null)
+                var path = SelectSavePath();
+                if (path != string.Empty)
                 {
-                    var newNode = new FamilyTreeNode
-                    {
-                        Name = "你说取个啥名好呢？",
-                        Type = Gender.Male
-                    };
-                    var editNodeWindow = new EditNodeWindow(newNode);
-                    var r = editNodeWindow.ShowDialog();
-                    if (r != null && r.Value)
-                        _actionHistory.DoAction(new AddChildAction(node, editNodeWindow.Node));
-                    // node.Children.Add(editNodeWindow.Node);
+                    FilePath = path;
+                    _isSaved = true;
                 }
-            }, node => Owner?.TreeViewFamily?.SelectedItem != null);
-            RemoveCurrentNode = new RelayCommand<FamilyTreeNode>(
-                node =>
-                {
-                    if (node?.ParentNode != null)
-                    {
-                        _actionHistory.DoAction(new RemoveNodeAction(node));
-                    }
-                }
-                , node => (Owner?.TreeViewFamily?.SelectedItem as FamilyTreeNode)?.ParentNode != null);
+            }
 
-            Undo = new RelayCommand(() => _actionHistory.Undo(1), () => _actionHistory.UndoCount > 0);
-            Redo = new RelayCommand(() => _actionHistory.Redo(1), () => _actionHistory.RedoCount > 0);
-
-            ResetTree = new RelayCommand(() =>
+            if (FilePath != string.Empty)
             {
-                if (MessageBoxResult.Yes ==
-                    MessageBox.Show(Owner, "确定要重置图谱吗？这样之前的信息会丢失哦~", "提示", MessageBoxButton.YesNo))
-                {
-                    _actionHistory.DoAction(new ResetTreeAction(this));
-                    // FamilyTreeNodes.Clear();
-                    // FamilyTreeNodes.Add(new FamilyTreeNode
-                    // {
-                    //     Name = "祖宗",
-                    //     Type = Gender.Male
-                    // });
-                }
-            });
+                MessageBox.Show(FilePath);
+            }
+        }
 
-            AboutUs = new RelayCommand(() =>
+        private void SaveFileAs()
+        {
+            var path = SelectSavePath();
+            if (path != string.Empty)
             {
-                if (_aboutWindow == null)
+                FilePath = path;
+                MessageBox.Show(FilePath);
+            }
+        }
+
+        #endregion
+
+        #region Edit Operation
+
+        private void Undo()
+        {
+            _actionHistory.Undo(1);
+        }
+
+        private void Redo()
+        {
+            _actionHistory.Redo(1);
+        }
+
+        private void ResetTree()
+        {
+            if (MessageBoxResult.Yes ==
+                MessageBox.Show(Owner, "确定要重置图谱吗？这样之前的信息会丢失哦~", "提示", MessageBoxButton.YesNo))
+            {
+                _actionHistory.DoAction(new ResetTreeAction(this));
+                // FamilyTreeNodes.Clear();
+                // FamilyTreeNodes.Add(new FamilyTreeNode
+                // {
+                //     Name = "祖宗",
+                //     Type = Gender.Male
+                // });
+            }
+        }
+
+
+        private void AddChild(FamilyTreeNode node)
+        {
+            if (node != null)
+            {
+                var newNode = new FamilyTreeNode
                 {
-                    _aboutWindow = new AboutWindow();
-                    _aboutWindow.Show();
-                    _aboutWindow = null;
-                }
-                else
-                {
-                    _aboutWindow.Activate();
-                }
-            });
+                    Name = "你说取个啥名好呢？",
+                    Type = Gender.Male
+                };
+                var editNodeWindow = new EditNodeWindow(newNode);
+                var r = editNodeWindow.ShowDialog();
+                if (r != null && r.Value)
+                    _actionHistory.DoAction(new AddChildAction(node, editNodeWindow.Node));
+                // node.Children.Add(editNodeWindow.Node);
+            }
+        }
+
+        private void RemoveCurrentNode(FamilyTreeNode node)
+        {
+            if (node?.ParentNode != null)
+            {
+                _actionHistory.DoAction(new RemoveNodeAction(node));
+            }
+        }
+
+        #endregion
+
+        private void AboutUs()
+        {
+            if (_aboutWindow == null)
+            {
+                _aboutWindow = new AboutWindow();
+                _aboutWindow.Show();
+                _aboutWindow = null;
+            }
+            else
+            {
+                _aboutWindow.Activate();
+            }
         }
     }
 }
