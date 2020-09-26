@@ -56,7 +56,18 @@
                     </Grid.ColumnDefinitions>
 
                     <Button Grid.Column="0" Margin="5" Content="添加孩子" Command="{Binding AddEmptyChild}"
-                            CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" />
+                            CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=TreeViewFamily,Path=SelectedItem}"
+                                             Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                     <Button Grid.Column="1" Margin="5" Content="移除当前节点" Command="{Binding RemoveCurrentNode}"
                             CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" />
                 </Grid>
