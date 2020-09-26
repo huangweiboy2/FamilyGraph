@@ -104,7 +104,7 @@ namespace FamilyGraph.ViewModel
 
         #region File Operation
 
-        private bool AskForSave()
+        public bool AskForSave()
         {
             if (_actionHistory.UndoCount > 0)
             {
@@ -283,8 +283,7 @@ namespace FamilyGraph.ViewModel
 
         private void Exit()
         {
-            if (AskForSave())
-                Owner.Close();
+            Owner.Close();
         }
     }
 }

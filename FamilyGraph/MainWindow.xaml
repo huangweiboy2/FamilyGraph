@@ -7,6 +7,7 @@
         xmlns:controls="clr-namespace:FamilyGraph.Controls"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        Closing="MainWindow_OnClosing"
         MinWidth="750"
         Title="家族图谱" Height="500" Width="800">
 

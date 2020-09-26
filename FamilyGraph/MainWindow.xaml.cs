@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using FamilyGraph.Internal;
 using FamilyGraph.ViewModel;
 
@@ -88,6 +89,12 @@ namespace FamilyGraph
             grandpa.AddChild(father);
 
             return grandpa;
+        }
+
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            if (!_viewModel.AskForSave())
+                e.Cancel = true;
         }
     }
 }
