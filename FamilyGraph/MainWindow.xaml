@@ -10,8 +10,8 @@
         xmlns:converter="clr-namespace:FamilyGraph.Converter"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
-        Title="家族图片" Height="500" Width="505">
+        MinWidth="750"
+        Title="家族图片" Height="500" Width="800">
 
     <Window.DataContext>
         <viewModel:MainViewModel />
@@ -23,12 +23,13 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="240"/>
-            <ColumnDefinition Width="245" />
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="5*" />
         </Grid.ColumnDefinitions>
 
         <!-- 展示家族关系 -->
         <TreeView
+            Margin="5"
             x:Name="TreeViewFamily"
             ItemsSource="{Binding FamilyTreeNodes}">
             <TreeView.ItemContainerStyle>
@@ -51,25 +52,25 @@
             </TreeView.ItemTemplate>
         </TreeView>
 
-        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5 0 0 0">
+        <StackPanel Grid.Column="1" Margin="5" Orientation="Vertical">
 
             <!-- 节点编辑 -->
             <GroupBox Header="继承关系">
-                <Grid Width="215" HorizontalAlignment="Left" Margin="5">
+                <Grid HorizontalAlignment="Left" Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Content="添加孩子" Command="{Binding AddEmptyChild}"
-                            CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}"/>
-                    <Button Grid.Column="1" Content="移除当前节点" Command="{Binding RemoveCurrentNode}"
-                            CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}"/>
+                    <Button Grid.Column="0" Margin="5" Content="添加孩子" Command="{Binding AddEmptyChild}"
+                            CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" />
+                    <Button Grid.Column="1" Margin="5" Content="移除当前节点" Command="{Binding RemoveCurrentNode}"
+                            CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}" />
                 </Grid>
             </GroupBox>
 
             <!-- 展示信息编辑 -->
-            <GroupBox Header="编辑节点信息">
+            <GroupBox Header="编辑节点信息" Margin="0 5 0 0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="32" />
@@ -77,12 +78,13 @@
                         <RowDefinition Height="32" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="40" />
-                        <ColumnDefinition Width="180" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
                     <Grid.Resources>
-                        <ObjectDataProvider x:Key="GenderNames" ObjectType="{x:Type sys:Enum}" MethodName="GetNames">
+                        <ObjectDataProvider x:Key="GenderNames" ObjectType="{x:Type sys:Enum}"
+                                            MethodName="GetNames">
                             <ObjectDataProvider.MethodParameters>
                                 <x:Type TypeName="internal:Gender" />
                             </ObjectDataProvider.MethodParameters>
