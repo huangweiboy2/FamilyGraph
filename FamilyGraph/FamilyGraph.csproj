@@ -81,6 +81,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converter\GenderConverter.cs" />
     <Compile Include="EditNodeWindow.xaml.cs">
       <DependentUpon>EditNodeWindow.xaml</DependentUpon>
@@ -93,6 +96,7 @@
     <Compile Include="ViewModel\FamilyTreeNode.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Page Include="AboutWindow.xaml" />
     <Page Include="EditNodeWindow.xaml" />
     <Page Include="Icon.xaml" />
     <Page Include="MainWindow.xaml">

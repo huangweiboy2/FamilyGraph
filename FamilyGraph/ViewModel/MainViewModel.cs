@@ -25,7 +25,8 @@ namespace FamilyGraph.ViewModel
     {
         public MainWindow Owner;
         private ObservableCollection<FamilyTreeNode> _familyTreeNodes = new ObservableCollection<FamilyTreeNode>();
-
+        private AboutWindow _aboutWindow = null;
+        
         public ObservableCollection<FamilyTreeNode> FamilyTreeNodes
         {
             get => _familyTreeNodes;
@@ -78,6 +79,20 @@ namespace FamilyGraph.ViewModel
                         Name = "祖宗",
                         Type = Gender.Male
                     });
+                }
+            });
+            
+            AboutUs = new RelayCommand(()=>
+            {
+                if (_aboutWindow == null)
+                {
+                    _aboutWindow = new AboutWindow();
+                    _aboutWindow.Show();
+                    _aboutWindow = null;
+                }
+                else
+                {
+                    _aboutWindow.Activate();
                 }
             });
         }
