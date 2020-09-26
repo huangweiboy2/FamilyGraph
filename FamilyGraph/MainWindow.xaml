@@ -8,6 +8,7 @@
         xmlns:viewModel="clr-namespace:FamilyGraph.ViewModel"
         xmlns:internal="clr-namespace:FamilyGraph.Internal"
         xmlns:converter="clr-namespace:FamilyGraph.Converter"
+        xmlns:controls="clr-namespace:FamilyGraph.Controls"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         MinWidth="750"
@@ -16,10 +17,6 @@
     <Window.DataContext>
         <viewModel:MainViewModel />
     </Window.DataContext>
-
-    <Window.Resources>
-        <converter:GenderConverter x:Key="GenderConverter" />
-    </Window.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -71,50 +68,11 @@
 
             <!-- 展示信息编辑 -->
             <GroupBox Header="编辑节点信息" Margin="0 5 0 0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="32" />
-                        <RowDefinition Height="32" />
-                        <RowDefinition Height="32" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="60" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <Grid.Resources>
-                        <ObjectDataProvider x:Key="GenderNames" ObjectType="{x:Type sys:Enum}"
-                                            MethodName="GetNames">
-                            <ObjectDataProvider.MethodParameters>
-                                <x:Type TypeName="internal:Gender" />
-                            </ObjectDataProvider.MethodParameters>
-                        </ObjectDataProvider>
-                    </Grid.Resources>
-
-                    <Grid.DataContext>
+                <controls:EditNodeControl>
+                    <controls:EditNodeControl.DataContext>
                         <Binding ElementName="TreeViewFamily" Path="SelectedItem" />
-                    </Grid.DataContext>
-
-                    <!-- 姓名 -->
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="姓名:" VerticalAlignment="Center"
-                               HorizontalAlignment="Right"
-                               Margin="0 0 6 0" />
-                    <TextBox Grid.Row="0" Grid.Column="1" Margin="0 4" Text="{Binding Name}" />
-
-                    <!-- 配偶 -->
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="配偶:" VerticalAlignment="Center"
-                               HorizontalAlignment="Right"
-                               Margin="0 0 6 0" />
-                    <TextBox Grid.Row="1" Grid.Column="1" Margin="0 4" Text="{Binding SpouseName}" />
-
-                    <!-- 性别 -->
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="性别:" VerticalAlignment="Center"
-                               HorizontalAlignment="Right"
-                               Margin="0 0 6 0" />
-                    <ComboBox Grid.Row="2" Grid.Column="1" Margin="0 4"
-                              ItemsSource="{Binding Source={StaticResource GenderNames}}"
-                              SelectedValue="{Binding Path=Type, Converter={StaticResource GenderConverter}, Mode=TwoWay}" />
-                </Grid>
+                    </controls:EditNodeControl.DataContext>
+                </controls:EditNodeControl>
             </GroupBox>
 
 

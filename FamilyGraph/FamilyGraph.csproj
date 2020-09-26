@@ -80,6 +80,9 @@
     </ApplicationDefinition>
     <Compile Include="Converter\GenderConverter.cs" />
     <Compile Include="Internal\Gender.cs" />
+    <Compile Include="Controls\EditNodeControl.xaml.cs">
+      <DependentUpon>EditNodeControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\FamilyTreeNode.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -96,6 +99,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Controls\EditNodeControl.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
