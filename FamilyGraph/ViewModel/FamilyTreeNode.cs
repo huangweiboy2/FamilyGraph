@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows.Documents;
+﻿using System.Collections.ObjectModel;
+using FamilyGraph.Internal;
 using GalaSoft.MvvmLight;
 
-namespace FamilyGraph
+namespace FamilyGraph.ViewModel
 {
     public class FamilyTreeNode : ViewModelBase
     {
@@ -31,9 +30,9 @@ namespace FamilyGraph
             }
         }
 
-        private NodeType _type = NodeType.Male;
+        private Gender _type = Gender.Male;
 
-        public NodeType Type
+        public Gender Type
         {
             get => _type;
             set
@@ -52,12 +51,6 @@ namespace FamilyGraph
                 _children = value;
                 RaisePropertyChanged();
             }
-        }
-
-        public enum NodeType
-        {
-            Male,
-            Female
         }
     }
 }

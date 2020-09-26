@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FamilyGraph.Internal;
 using FamilyGraph.ViewModel;
 
 namespace FamilyGraph
@@ -48,25 +49,25 @@ namespace FamilyGraph
             var son1 = new FamilyTreeNode
             {
                 Name = "儿子1",
-                Type = FamilyTreeNode.NodeType.Male
+                Type = Gender.Male
             };
             var son2 = new FamilyTreeNode
             {
                 Name = "儿子2",
                 SpouseName = "儿媳妇2",
-                Type = FamilyTreeNode.NodeType.Male
+                Type = Gender.Male
             };
             var daughter = new FamilyTreeNode
             {
                 Name = "女儿",
-                Type = FamilyTreeNode.NodeType.Female
+                Type = Gender.Female
             };
 
             var me = new FamilyTreeNode
             {
                 Name = "我",
                 SpouseName = "老婆",
-                Type = FamilyTreeNode.NodeType.Male
+                Type = Gender.Male
             };
             me.Children.Add(son1);
             me.Children.Add(son2);
@@ -76,14 +77,14 @@ namespace FamilyGraph
             {
                 Name = "哥哥",
                 SpouseName = "嫂子",
-                Type = FamilyTreeNode.NodeType.Male
+                Type = Gender.Male
             };
 
             var father = new FamilyTreeNode
             {
                 Name = "爸爸",
                 SpouseName = "妈妈",
-                Type = FamilyTreeNode.NodeType.Male
+                Type = Gender.Male
             };
             father.Children.Add(me);
             father.Children.Add(brother);
@@ -92,7 +93,7 @@ namespace FamilyGraph
             {
                 Name = "爷爷",
                 SpouseName = "奶奶",
-                Type = FamilyTreeNode.NodeType.Male
+                Type = Gender.Male
             };
             grandpa.Children.Add(father);
 
