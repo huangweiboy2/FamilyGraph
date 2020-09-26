@@ -80,6 +80,7 @@ namespace FamilyGraph.ViewModel
             OpenFileCommand = new RelayCommand(OpenFile);
             SaveFileCommand = new RelayCommand(SaveFile);
             SaveFileAsCommand = new RelayCommand(SaveFileAs);
+            PrintCommand = new RelayCommand(Print);
 
             // Edit Commands
             UndoCommand = new RelayCommand(execute: Undo, () => _actionHistory.UndoCount > 0);
@@ -95,7 +96,11 @@ namespace FamilyGraph.ViewModel
 
             // Help Commands
             AboutUsCommand = new RelayCommand(AboutUs);
+
+            // Others Commands
+            ExitCommand = new RelayCommand(Exit);
         }
+
 
         #region File Operation
 
@@ -200,6 +205,11 @@ namespace FamilyGraph.ViewModel
             }
         }
 
+        private void Print()
+        {
+            MessageBox.Show("正在快马加鞭开发中呢~");
+        }
+
         #endregion
 
         #region Edit Operation
@@ -269,6 +279,12 @@ namespace FamilyGraph.ViewModel
             {
                 _aboutWindow.Activate();
             }
+        }
+
+        private void Exit()
+        {
+            if (AskForSave())
+                Owner.Close();
         }
     }
 }
