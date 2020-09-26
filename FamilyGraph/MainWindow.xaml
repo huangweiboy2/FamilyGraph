@@ -10,7 +10,8 @@
         xmlns:converter="clr-namespace:FamilyGraph.Converter"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="500" Width="505">
+        ResizeMode="NoResize"
+        Title="家族图片" Height="500" Width="505">
 
     <Window.DataContext>
         <viewModel:MainViewModel />
