@@ -37,6 +37,11 @@ namespace FamilyGraph.Undoable
                 DoAction(action);
             }
         }
-        
+
+        public void Clear()
+        {
+            _doneActions.Clear();
+            _canRedoActions.Clear();
+        }
     }
 }
