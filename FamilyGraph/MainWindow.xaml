@@ -35,43 +35,43 @@
     <Border>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
-                <MenuItem Header="文件">
-                    <MenuItem Header="新建" Command="{Binding NewFile}"
+                <MenuItem Header="文件(_F)">
+                    <MenuItem Header="新建(_N)" Command="{Binding NewFile}"
                               InputGestureText="Ctrl+N" />
-                    <MenuItem Header="打开" Command="{Binding OpenFile}"
+                    <MenuItem Header="打开(_O)" Command="{Binding OpenFile}"
                               InputGestureText="Ctrl+O" />
-                    <MenuItem Header="保存" Command="{Binding SaveFile}"
+                    <MenuItem Header="保存(_S)" Command="{Binding SaveFile}"
                               InputGestureText="Ctrl+S" />
                     <MenuItem Header="另存为" Command="{Binding SaveFileAs}"
                               InputGestureText="Ctrl+Shift+N" />
                     <Separator />
-                    <MenuItem Header="打印" Command="{Binding Print}"
+                    <MenuItem Header="打印(_P)" Command="{Binding Print}"
                               InputGestureText="Ctrl+P" />
                     <Separator />
-                    <MenuItem Header="退出" Command="{Binding Exit}" />
+                    <MenuItem Header="退出(_E)" Command="{Binding Exit}" />
                 </MenuItem>
-                <MenuItem Header="编辑">
-                    <MenuItem Header="撤销" Command="{Binding Undo}"
+                <MenuItem Header="编辑(_E)">
+                    <MenuItem Header="撤销(_U)" Command="{Binding Undo}"
                               InputGestureText="Ctrl+Z" />
-                    <MenuItem Header="重做" Command="{Binding Redo}"
+                    <MenuItem Header="重做(_R)" Command="{Binding Redo}"
                               InputGestureText="Ctrl+Y" />
                 </MenuItem>
-                <MenuItem Header="族谱">
-                    <MenuItem Header="重置图谱" Command="{Binding ResetTree}"
+                <MenuItem Header="族谱(_G)">
+                    <MenuItem Header="重置图谱(_R)" Command="{Binding ResetTree}"
                               InputGestureText="Ctrl+R" />
                     <Separator />
-                    <MenuItem Header="添加孩子" Command="{Binding AddEmptyChild}"
+                    <MenuItem Header="添加孩子(_A)" Command="{Binding AddEmptyChild}"
                               CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}"
                               InputGestureText="Ctrl+Shift+A" />
-                    <MenuItem Header="删除当前节点" Command="{Binding RemoveCurrentNode}"
+                    <MenuItem Header="删除当前节点(_D)" Command="{Binding RemoveCurrentNode}"
                               CommandParameter="{Binding ElementName=TreeViewFamily, Path=SelectedItem}"
                               InputGestureText="Ctrl+D" />
                     <Separator />
-                    <MenuItem Header="预览" Command="{Binding PreviewGraph}"
+                    <MenuItem Header="预览(_P)" Command="{Binding PreviewGraph}"
                               InputGestureText="Ctrl+Shift+N" />
                 </MenuItem>
-                <MenuItem Header="帮助">
-                    <MenuItem Header="关于" Command="{Binding AboutUs}" />
+                <MenuItem Header="帮助(_H)">
+                    <MenuItem Header="关于(_A)" Command="{Binding AboutUs}" />
                 </MenuItem>
             </Menu>
 
